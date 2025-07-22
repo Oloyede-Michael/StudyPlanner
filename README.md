@@ -55,7 +55,7 @@ npm run preview
 
 ## Expanding the ESLint Configuration
 
-If you are developing a production application, consider using TypeScript with type-aware lint rules. More information can be found in the [TS template for Vite](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts).
+If you want to clone the repo and develop to a production application, consider using TypeScript with type-aware lint rules. More information can be found in the [TS template for Vite](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts).
 
 ## License
 
