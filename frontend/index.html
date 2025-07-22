@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Study Planner</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <div class="header">
+    <h1>📚 Study Planner</h1>
+    <div class="icon">☰</div>
+  </div>
+  
+  <div class="container">
+    <form id="plannerForm">
+      <label>Your Name:
+        <input type="text" name="name" required />
+      </label>
+
+      <div id="courses">
+        <div class="course-section">
+          <h3>Course 1:</h3>
+          <div class="course-details">
+            <label>Course Name:
+              <input type="text" name="courseName" required>
+            </label>
+            <label>Difficulty (1-5):
+              <input type="number" name="difficulty" min="1" max="5" required>
+            </label>
+          </div>
+          <label>Exam Date:
+            <input type="date" name="examDate" required>
+          </label>
+        </div>
+      </div>
+
+      <div class="buttons">
+        <button type="button" onclick="addCourse()">➕ Add another course</button><br>
+        <button type="submit">📅 Generate Plan</button>
+      </div>
+    </form>
+
+    <div class="StudyPlan">
+      <h2>Your Study Plan</h2>
+      <div class="no-courses">
+        <div class="no-courses-image">+</div>
+        <h2>No courses added yet. Add your first course to get started</h2>
+      </div>
+      <div class="output-container">
+       <div id="output"></div>
+      </div>
+    </div>
+  </div>
+
+ <script>
+  document.getElementById('plannerForm').addEventListener('submit', async function(event) {
+  event.preventDefault();
+  const form = new FormData(event.target);
+  const name = form.get("name");
+
+  const courseNames = form.getAll("courseName");
+  const difficulties = form.getAll("difficulty");
+  const examDates = form.getAll("examDate");
+
+  const courses = [];
+  for (let i = 0; i < courseNames.length; i++) {
+    courses.push({
+      name: courseNames[i],
+      difficulty: parseInt(difficulties[i]),
+      exam_date: examDates[i]
+    });
+  }
+
+  const response = await fetch("http://localhost:8080/generate-plan", {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({ name, courses })
+  });
+
+  if (response.ok) {
+    const result = await response.text();
+    document.querySelector('.no-courses').style.display = "none";
+    document.getElementById("output").innerHTML = result;
+  } else {
+    document.getElementById("output").innerHTML = `<p style="color:red;">Something went wrong. Try again.</p>`;
+  }
+});
+
+function addCourse() {
+  const courseSection = document.createElement("div");
+  courseSection.classList.add("course-section");
+  courseSection.innerHTML = `
+    <h3>New Course:</h3>
+    <div class="course-details">
+      <label>Course Name:
+        <input type="text" name="courseName" required>
+      </label>
+      <label>Difficulty (1-5):
+        <input type="number" name="difficulty" min="1" max="5" required>
+      </label>
+    </div>
+    <label>Exam Date:
+      <input type="date" name="examDate" required>
+    </label>
+  `;
+  document.getElementById("courses").appendChild(courseSection);
+}
+
+ </script>
+</body>
+</html>
+
