@@ -24,22 +24,16 @@ These instructions will get you a copy of the project up and running on your loc
 1. Clone the repository:
    ```sh
    git clone https://github.com/Oloyede-Michael/StudyPlanner.git
-   cd StudyPlanner/studyplanner-frontend
-   ```
-
-2. Install dependencies:
-   ```sh
-   npm install
    ```
 
 ### Running the Project
 
 To start the development server, run:
 ```sh
-npm run dev
+g++ main.cpp -o server -lws2_32
 ```
 
-This will launch the app in development mode. Open your browser and navigate to the URL provided in the terminal (typically `http://localhost:5173`).
+This will launch the app in development mode. Open your browser and navigate to the URL provided in the terminal (typically `http://localhost:8080`).
 
 ### Building for Production
 
